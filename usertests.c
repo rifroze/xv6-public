@@ -1451,14 +1451,15 @@ sbrktest(void)
   // can one grow address space to something big?
 #define BIG (100*1024*1024)
   a = sbrk(0);
-  amt = (BIG) - (uint)a;
+  amt = (BIG) - (unsigned long)a;
   p = sbrk(amt);
   if (p != a) {
     printf(stdout, "sbrk test failed to grow big address space; enough phys mem?\n");
     exit();
   }
   lastaddr = (char*) (BIG-1);
-  *lastaddr = 99;
+  strcpy(lastaddr, "\x99");
+  //*lastaddr = 99;
 
   // can one de-allocate?
   a = sbrk(0);
